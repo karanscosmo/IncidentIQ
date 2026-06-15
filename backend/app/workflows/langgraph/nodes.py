@@ -13,14 +13,18 @@ def analyze_node(state: IncidentState) -> IncidentState:
     print("Agent: Analyzing incident...")
     incident = state.get("incident_content", "")
     
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": "You are an expert SRE. Analyze the incident and provide a concise summary of the failure domain."},
-            {"role": "user", "content": f"Incident: {incident}"}
-        ]
-    )
-    analysis = response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": "You are an expert SRE. Analyze the incident and provide a concise summary of the failure domain."},
+                {"role": "user", "content": f"Incident: {incident}"}
+            ]
+        )
+        analysis = response.choices[0].message.content
+    except Exception as e:
+        print(f"OpenAI fallback in analyze_node: {e}")
+        analysis = f"Demo Mode Analysis: The incident '{incident[:30]}...' involves a suspected failure in the core infrastructure."
     return {"analysis": analysis}
 
 import re
@@ -58,28 +62,36 @@ def generate_root_cause_node(state: IncidentState) -> IncidentState:
     
     context = "\n".join(memories) if memories else "No relevant past incidents found."
     
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": "You are an expert SRE. Determine the root cause of the incident based on the analysis and past similar incidents. Be specific and technical."},
-            {"role": "user", "content": f"Incident: {incident}\nAnalysis: {analysis}\nPast Context:\n{context}"}
-        ]
-    )
-    root_cause = response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": "You are an expert SRE. Determine the root cause of the incident based on the analysis and past similar incidents. Be specific and technical."},
+                {"role": "user", "content": f"Incident: {incident}\nAnalysis: {analysis}\nPast Context:\n{context}"}
+            ]
+        )
+        root_cause = response.choices[0].message.content
+    except Exception as e:
+        print(f"OpenAI fallback in generate_root_cause_node: {e}")
+        root_cause = "Demo Mode Root Cause: Memory leak in the primary database connection pool due to unhandled exceptions in the worker threads."
     return {"root_cause": root_cause}
 
 def generate_resolution_node(state: IncidentState) -> IncidentState:
     print("Agent: Generating resolution...")
     root_cause = state.get("root_cause", "")
     
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": "You are an expert SRE. Provide step-by-step resolution actions to fix the given root cause."},
-            {"role": "user", "content": f"Root Cause: {root_cause}"}
-        ]
-    )
-    resolution = response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": "You are an expert SRE. Provide step-by-step resolution actions to fix the given root cause."},
+                {"role": "user", "content": f"Root Cause: {root_cause}"}
+            ]
+        )
+        resolution = response.choices[0].message.content
+    except Exception as e:
+        print(f"OpenAI fallback in generate_resolution_node: {e}")
+        resolution = "Demo Mode Resolution:\n1. Restart the affected worker nodes.\n2. Apply the patch to connection pool logic.\n3. Monitor metrics for 24 hours."
     return {"resolution": resolution}
 
 def generate_postmortem_node(state: IncidentState) -> IncidentState:
@@ -88,14 +100,18 @@ def generate_postmortem_node(state: IncidentState) -> IncidentState:
     root_cause = state.get("root_cause", "")
     resolution = state.get("resolution", "")
     
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": "You are an expert SRE. Generate a blameless postmortem based on the incident, root cause, and resolution provided. Include sections for timeline, impact, root cause, resolution, and action items."},
-            {"role": "user", "content": f"Incident: {incident}\nRoot Cause: {root_cause}\nResolution: {resolution}"}
-        ]
-    )
-    postmortem = response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": "You are an expert SRE. Generate a blameless postmortem based on the incident, root cause, and resolution provided. Include sections for timeline, impact, root cause, resolution, and action items."},
+                {"role": "user", "content": f"Incident: {incident}\nRoot Cause: {root_cause}\nResolution: {resolution}"}
+            ]
+        )
+        postmortem = response.choices[0].message.content
+    except Exception as e:
+        print(f"OpenAI fallback in generate_postmortem_node: {e}")
+        postmortem = f"# Postmortem (Demo Fallback)\n\n**Incident:** {incident[:50]}...\n\n**Root Cause:** {root_cause}\n\n**Resolution:** {resolution}\n\n**Action Items:**\n- Audit database connection timeouts.\n- Increase memory limits on worker pods."
     return {"postmortem": postmortem}
 
 def store_learning_node(state: IncidentState) -> IncidentState:
@@ -107,14 +123,18 @@ def store_learning_node(state: IncidentState) -> IncidentState:
     # Synthesize the final learning
     learning_content = f"Incident Summary: {incident}\nRoot Cause: {root_cause}\nResolution: {resolution}"
     
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": "Summarize the incident, root cause, and resolution into a single concise fact for long-term memory storage."},
-            {"role": "user", "content": learning_content}
-        ]
-    )
-    learning = response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": "Summarize the incident, root cause, and resolution into a single concise fact for long-term memory storage."},
+                {"role": "user", "content": learning_content}
+            ]
+        )
+        learning = response.choices[0].message.content
+    except Exception as e:
+        print(f"OpenAI fallback in store_learning_node: {e}")
+        learning = "Demo Mode Learning: Ensure connection pools have explicit timeouts to prevent cascading worker failures."
     
     # Store in Hindsight Memory Bank
     store_incident(learning)
