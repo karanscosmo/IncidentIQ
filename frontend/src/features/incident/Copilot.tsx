@@ -176,15 +176,24 @@ export default function Copilot() {
             onChange={(e) => setQuery(e.target.value)}
             disabled={messages[messages.length - 1]?.content === 'Analyzing incident...'}
             placeholder="Ask about an incident, error log, or system behavior..."
-            className="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-4 pr-12 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all disabled:opacity-50"
+            className="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-4 pr-32 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all disabled:opacity-50"
           />
-          <button 
-            type="submit"
-            disabled={messages[messages.length - 1]?.content === 'Analyzing incident...'}
-            className="absolute right-2 w-8 h-8 rounded flex items-center justify-center text-primary hover:bg-primary/10 transition-colors disabled:opacity-50"
-          >
-            <Send className="w-4 h-4" />
-          </button>
+          <div className="absolute right-2 flex items-center gap-2">
+            <button 
+              type="button"
+              onClick={() => setQuery("ALERT: payment-gateway DB connection timeouts. Worker threads failing with unhandled Exception: ConnectionPoolExhausted.")}
+              className="text-[10px] font-semibold bg-secondary-container/20 text-secondary border border-secondary/30 px-2 py-1 rounded hover:bg-secondary-container/40 transition-colors uppercase tracking-wider"
+            >
+              Demo Auto-Fill
+            </button>
+            <button 
+              type="submit"
+              disabled={messages[messages.length - 1]?.content === 'Analyzing incident...'}
+              className="w-8 h-8 rounded flex items-center justify-center text-primary hover:bg-primary/10 transition-colors disabled:opacity-50"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
         </form>
       </div>
 

@@ -34,14 +34,24 @@ export default function LandingPage() {
             IncidentIQ combines agentic workflows with persistent vector memory to dramatically reduce Mean Time to Resolution and prevent repeat outages.
           </p>
 
-          <button 
-            onClick={() => navigate('/dashboard')}
-            className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-background bg-primary hover:bg-primary-fixed transition-all duration-300 rounded-full shadow-[0_0_40px_rgba(192,193,255,0.4)] hover:shadow-[0_0_60px_rgba(192,193,255,0.6)] hover:-translate-y-1 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-            <span>Launch Platform</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => navigate('/dashboard')}
+              className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-background bg-primary hover:bg-primary-fixed transition-all duration-300 rounded-full shadow-[0_0_40px_rgba(192,193,255,0.4)] hover:shadow-[0_0_60px_rgba(192,193,255,0.6)] hover:-translate-y-1 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <span>Launch Platform</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+
+            <button 
+              onClick={() => navigate('/incident-copilot')}
+              className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-secondary bg-secondary-container/20 border border-secondary/30 hover:bg-secondary-container/40 transition-all duration-300 rounded-full hover:-translate-y-1"
+            >
+              <Activity className="w-5 h-5" />
+              <span>Interactive Demo</span>
+            </button>
+          </div>
         </div>
 
         {/* Feature Cards */}

@@ -38,9 +38,23 @@ export default function DeploymentRisk() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {/* Form Section */}
       <div className="space-y-6">
-        <div>
-          <h2 className="font-h1 text-h1 text-on-surface mb-1">Deployment Risk Predictor</h2>
-          <p className="text-on-surface-variant font-body-md">Analyze planned changes against historical incident memory.</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-h1 text-h1 text-on-surface mb-1">Deployment Risk Predictor</h2>
+            <p className="text-on-surface-variant font-body-md">Analyze planned changes against historical incident memory.</p>
+          </div>
+          <button 
+            type="button"
+            onClick={() => {
+              setService('payment-gateway');
+              setVersion('v3.2.1-rc.4');
+              setChanges('- Bumped postgres driver version\n- Removed explicit connection timeouts in worker threads\n- Updated JWT signing algorithm');
+            }}
+            className="px-4 py-1.5 bg-secondary-container/20 text-secondary border border-secondary/30 rounded-full text-xs font-semibold hover:bg-secondary-container/40 transition-colors flex items-center gap-2"
+          >
+            <Activity className="w-3.5 h-3.5" />
+            Auto-fill Demo PR
+          </button>
         </div>
 
         <form onSubmit={handlePredict} className="glass-panel p-6 rounded-xl space-y-4 border border-outline-variant">
