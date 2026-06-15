@@ -9,6 +9,21 @@ export const api = axios.create({
   }
 })
 
+// Add an interceptor to inject API keys into headers
+api.interceptors.request.use((config) => {
+  const openaiKey = localStorage.getItem('openai_api_key');
+  const hindsightKey = localStorage.getItem('hindsight_api_key');
+  
+  if (openaiKey) {
+    config.headers['X-OpenAI-Key'] = openaiKey;
+  }
+  if (hindsightKey) {
+    config.headers['X-Hindsight-Key'] = hindsightKey;
+  }
+  
+  return config;
+});
+
 export const incidentService = {
   store: async (content: string) => {
     return api.post('/incident/store', { content })

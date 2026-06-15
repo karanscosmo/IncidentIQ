@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Dashboard from './features/dashboard/Dashboard'
 import Copilot from './features/incident/Copilot'
 import MemoryExplorer from './features/memory/MemoryExplorer'

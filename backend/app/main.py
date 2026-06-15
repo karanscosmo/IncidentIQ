@@ -42,6 +42,20 @@ app.include_router(workflow.router, prefix="/workflow", tags=["Agent Workflow"])
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
+@app.middleware("http")
+async def extract_api_keys(request: Request, call_next):
+    # Extract API keys from headers and temporarily set them in environment
+    openai_key = request.headers.get("x-openai-key")
+    if openai_key:
+        os.environ["OPENAI_API_KEY"] = openai_key
+    
+    hindsight_key = request.headers.get("x-hindsight-key")
+    if hindsight_key:
+        os.environ["HINDSIGHT_API_KEY"] = hindsight_key
+
+    response = await call_next(request)
+    return response
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     import logging
