@@ -1,6 +1,6 @@
 import { Database, Zap, CheckCircle2, Activity, ShieldCheck, AlertCircle, Box, Server, Clock } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { dashboardService } from '../../services/api'
+import { dashboardService } from '../services/api'
 
 interface HealthData {
   status: string;

@@ -20,7 +20,7 @@ export default function SimilarIncidents() {
     const fetchIncidents = async () => {
       try {
         const response = await incidentService.search('incident', 5)
-        const parsed = response.data.results.map((res: any, idx: number) => {
+        const parsed = response.data.results.map((res: any) => {
           return {
             id: res.id,
             title: res.title,

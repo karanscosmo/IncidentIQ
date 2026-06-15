@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Bot, User, Send, Database, Sparkles } from 'lucide-react'
+import { Bot, User, Send, Database, Sparkles, Activity } from 'lucide-react'
 import { cn } from '../../utils/utils'
 import { workflowService } from '../../services/api'
 
