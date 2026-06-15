@@ -25,10 +25,26 @@ export default function Copilot() {
   useEffect(() => {
     if (location.state?.initialQuery) {
       setQuery(location.state.initialQuery);
-      // Clear the state so it doesn't run again on reload
       window.history.replaceState({}, document.title)
     }
-  }, [location.state]);
+
+    const handleAutoFill = () => {
+      setQuery("ALERT: payment-gateway DB connection timeouts. Worker threads failing with unhandled Exception: ConnectionPoolExhausted.");
+    };
+    
+    const handleAutoSubmit = () => {
+      const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
+      handleSend(fakeEvent);
+    };
+
+    window.addEventListener('AUTOPLAY_COPILOT_FILL', handleAutoFill);
+    window.addEventListener('AUTOPLAY_COPILOT_SUBMIT', handleAutoSubmit);
+
+    return () => {
+      window.removeEventListener('AUTOPLAY_COPILOT_FILL', handleAutoFill);
+      window.removeEventListener('AUTOPLAY_COPILOT_SUBMIT', handleAutoSubmit);
+    };
+  }, [location.state, query]); // Include query so handleSend has current state
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault()

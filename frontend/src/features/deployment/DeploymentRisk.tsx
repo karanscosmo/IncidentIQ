@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AlertTriangle, ShieldCheck, Activity, Send, Database } from 'lucide-react'
 import { cn } from '../../utils/utils'
 import { deploymentService } from '../../services/api'
@@ -16,6 +16,28 @@ export default function DeploymentRisk() {
   const [changes, setChanges] = useState('')
   const [analyzing, setAnalyzing] = useState(false)
   const [result, setResult] = useState<RiskResult | null>(null)
+
+  useEffect(() => {
+    const handleAutoFill = () => {
+      setService('payment-gateway');
+      setVersion('v3.2.1-rc.4');
+      setChanges('- Bumped postgres driver version\n- Removed explicit connection timeouts in worker threads\n- Updated JWT signing algorithm');
+    };
+    
+    const handleAutoSubmit = () => {
+      // Create a fake event object
+      const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
+      handlePredict(fakeEvent);
+    };
+
+    window.addEventListener('AUTOPLAY_RISK_FILL', handleAutoFill);
+    window.addEventListener('AUTOPLAY_RISK_SUBMIT', handleAutoSubmit);
+
+    return () => {
+      window.removeEventListener('AUTOPLAY_RISK_FILL', handleAutoFill);
+      window.removeEventListener('AUTOPLAY_RISK_SUBMIT', handleAutoSubmit);
+    };
+  }, [service, version, changes]); // Added deps so handlePredict gets current state
 
   const handlePredict = async (e: React.FormEvent) => {
     e.preventDefault()
