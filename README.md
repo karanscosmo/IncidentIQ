@@ -98,11 +98,7 @@ sequenceDiagram
 
 ---
 
-## 7. Screenshots
 
-*(Screenshots will be added before final submission)*
-
----
 
 ## 8. Tech Stack
 
