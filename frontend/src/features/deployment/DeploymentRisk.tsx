@@ -28,7 +28,7 @@ export default function DeploymentRisk() {
     } catch (error) {
       console.error('Failed to predict risk:', error)
       // Removed mock fallback to strictly comply with "no mock data" rule
-      alert('Failed to predict risk. Ensure backend is running and OPENAI_API_KEY is valid.')
+      alert((error as any).response?.data?.detail || 'Failed to predict risk. Ensure backend is running and all API keys are valid.')
     } finally {
       setAnalyzing(false)
     }
