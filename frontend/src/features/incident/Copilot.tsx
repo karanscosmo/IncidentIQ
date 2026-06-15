@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Bot, User, Send, Database, Sparkles, Activity } from 'lucide-react'
 import { cn } from '../../utils/utils'
 import { workflowService } from '../../services/api'
@@ -12,6 +13,7 @@ interface Message {
 }
 
 export default function Copilot() {
+  const location = useLocation();
   const [query, setQuery] = useState('')
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -19,6 +21,14 @@ export default function Copilot() {
       content: 'I am the IncidentIQ Copilot. I have access to 1,240 historical incidents in the memory bank. Describe the current anomaly or paste logs to get started.'
     }
   ])
+
+  useEffect(() => {
+    if (location.state?.initialQuery) {
+      setQuery(location.state.initialQuery);
+      // Clear the state so it doesn't run again on reload
+      window.history.replaceState({}, document.title)
+    }
+  }, [location.state]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault()
