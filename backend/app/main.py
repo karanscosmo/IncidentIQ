@@ -17,7 +17,8 @@ from app.api.routers import incidents, workflow, predictor
 app = FastAPI(
     title=settings.api_title,
     version=settings.api_version,
-    description="Production-grade API for storing, searching, and analyzing incident memories using Hindsight Cloud."
+    description="Production-grade API for storing, searching, and analyzing incident memories using Hindsight Cloud.",
+    root_path="/_/backend"
 )
 
 app.add_middleware(

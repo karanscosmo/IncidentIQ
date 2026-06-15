@@ -8,11 +8,13 @@ import Postmortems from './features/postmortem/Postmortems'
 import Settings from './pages/Settings'
 import MainLayout from './components/layout/MainLayout'
 
+import LandingPage from './pages/LandingPage'
+
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route element={<MainLayout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="copilot" element={<Copilot />} />
         <Route path="memory" element={<MemoryExplorer />} />

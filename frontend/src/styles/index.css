@@ -48,6 +48,12 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .translate-z-10 {
+    transform: translateZ(30px);
+  }
 }
 
 /* Custom scrollbar */
