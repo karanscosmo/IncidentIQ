@@ -12,8 +12,6 @@
 
 IncidentIQ is an enterprise-grade AI operations platform. It combines agentic workflows with persistent vector memory to dramatically reduce Mean Time to Resolution (MTTR) and prevent repeat failures.
 
-![IncidentIQ Architecture](/docs/assets/hero.png)
-
 </div>
 
 ---
@@ -102,11 +100,7 @@ sequenceDiagram
 
 ## 7. Screenshots
 
-### Incident Copilot
-![Incident Copilot](/docs/assets/copilot.png)
-
-### Memory Explorer
-![Memory Explorer](/docs/assets/memory.png)
+*(Screenshots will be added before final submission)*
 
 ---
 
@@ -259,7 +253,7 @@ IncidentIQ is designed for zero-trust enterprise environments.
 ## 17. Contributors
 
 - **IncidentIQ Team**
-- *Built for the AI Operations Hackathon*
+
 
 ---
 
