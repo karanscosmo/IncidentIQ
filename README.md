@@ -10,6 +10,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Hindsight Memory](https://img.shields.io/badge/Powered%20By-Vectorize%20Hindsight-FF4B4B.svg)](https://vectorize.io)
 
+🚀 **Live Demo:** [https://incident-iq-gtdi.vercel.app](https://incident-iq-gtdi.vercel.app)
+
 IncidentIQ is an enterprise-grade AI operations platform. It combines agentic workflows with persistent vector memory to dramatically reduce Mean Time to Resolution (MTTR) and prevent repeat failures.
 
 </div>
