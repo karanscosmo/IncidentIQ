@@ -45,7 +45,7 @@ export default function LandingPage() {
             </button>
 
             <button 
-              onClick={() => navigate('/incident-copilot')}
+              onClick={() => navigate('/copilot')}
               className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-secondary bg-secondary-container/20 border border-secondary/30 hover:bg-secondary-container/40 transition-all duration-300 rounded-full hover:-translate-y-1"
             >
               <Activity className="w-5 h-5" />
