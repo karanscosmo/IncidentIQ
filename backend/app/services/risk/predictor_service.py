@@ -47,7 +47,7 @@ def predict_deployment_risk(request: DeploymentRiskRequest) -> DeploymentRiskRes
     except Exception as e:
         print(f"OpenAI API failed (Quota/Auth): {e}")
         # Fallback if OpenAI quota is exhausted, but still use real memory context
-        fallback_incidents = [m.id for m in results[:3]] if results else ["No past incidents found in Hindsight memory."]
+        fallback_incidents = [getattr(m, "id", f"Historical-Memory-{i}") for i, m in enumerate(results[:3])] if results else ["No past incidents found in Hindsight memory."]
         return DeploymentRiskResponse(
             risk_score="High",
             confidence="92%",
