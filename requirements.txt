@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+hindsight-client
+pydantic
+python-dotenv
+langgraph
+openai
+pydantic-settings
