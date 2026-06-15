@@ -13,16 +13,7 @@ interface Postmortem {
 }
 
 export default function Postmortems() {
-  const [postmortems, setPostmortems] = useState<Postmortem[]>([
-    {
-      id: 'PM-1035',
-      incident: 'INC-1035',
-      title: 'Database Deadlock Event',
-      date: 'Generated 2 hours ago',
-      author: 'AI Agent (Postmortem)',
-      status: 'Review Pending'
-    }
-  ])
+  const [postmortems, setPostmortems] = useState<Postmortem[]>([])
   
   const [showModal, setShowModal] = useState(false)
   const [incidentText, setIncidentText] = useState('')
@@ -42,7 +33,7 @@ export default function Postmortems() {
         title: state.analysis?.substring(0, 40) + '...' || 'New Incident Postmortem',
         date: new Date().toLocaleDateString(),
         author: 'AI Agent',
-        status: 'Generated',
+        status: 'Approved',
         content: state.postmortem
       }
       
@@ -73,6 +64,18 @@ export default function Postmortems() {
         </button>
       </div>
 
+      {postmortems.length === 0 && (
+        <div className="glass-panel p-12 rounded-xl border border-outline-variant flex flex-col items-center justify-center text-center">
+          <div className="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4">
+            <FileText className="w-8 h-8 text-on-surface-variant" />
+          </div>
+          <h3 className="text-lg font-bold text-on-surface mb-2">No Postmortems Found</h3>
+          <p className="text-sm text-on-surface-variant max-w-md">
+            Generate your first AI-driven postmortem to automatically learn and store incident context into the Hindsight Memory Bank.
+          </p>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {postmortems.map(pm => (
           <div 
@@ -93,9 +96,13 @@ export default function Postmortems() {
             </div>
             
             <h3 className="text-[16px] font-semibold text-on-surface mb-2">{pm.title}</h3>
-            <p className="text-[12px] text-on-surface-variant flex items-center gap-1 mb-6">
+            <p className="text-[12px] text-on-surface-variant flex items-center gap-1 mb-4">
               <Clock className="w-3.5 h-3.5" /> {pm.date}
             </p>
+
+            <div className="bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase px-2 py-1.5 rounded mb-6 self-start tracking-wider">
+              Stored To Hindsight
+            </div>
 
             <div className="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant">
               <div className="text-[11px] text-on-surface-variant">

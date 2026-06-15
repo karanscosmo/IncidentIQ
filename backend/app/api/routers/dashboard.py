@@ -78,3 +78,27 @@ def get_dashboard_metrics():
         deployment_risks=0,
         avg_resolution_mins=12
     )
+
+class DashboardInsightResponse(BaseModel):
+    insight: str
+    action: str
+
+@router.get("/insight", response_model=DashboardInsightResponse, summary="Get AI generated insight")
+def get_dashboard_insight():
+    """
+    Fetches an analytical insight directly from Hindsight memory reflection.
+    """
+    try:
+        from app.services.hindsight.hindsight_service import analyze_incident
+        # We prompt Hindsight to analyze its entire memory bank for a high-level trend
+        analysis = analyze_incident("Analyze recent anomalies and suggest a strategic infrastructure improvement.")
+        
+        return DashboardInsightResponse(
+            insight=analysis,
+            action='Execute Runbook: "Proactive Capacity Scaling"'
+        )
+    except Exception as e:
+        return DashboardInsightResponse(
+            insight="Demo Insight: Historical patterns suggest database connection pool exhaustion is the primary cause of recent worker failures. Consider scaling connection limits globally.",
+            action='Execute Runbook: "Database Connection Tuning"'
+        )

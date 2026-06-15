@@ -28,6 +28,9 @@ export const dashboardService = {
   },
   getHealth: async () => {
     return api.get('/dashboard/health')
+  },
+  getInsight: async () => {
+    return api.get('/dashboard/insight')
   }
 }
 
