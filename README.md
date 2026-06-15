@@ -130,8 +130,7 @@ sequenceDiagram
 - OpenAI (`gpt-4o-mini`)
 
 **Infrastructure:**
-- Vercel (Frontend Hosting)
-- Railway (Backend Hosting)
+- Vercel (Frontend & Serverless Backend)
 
 ---
 
