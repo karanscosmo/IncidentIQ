@@ -24,28 +24,7 @@ export default function MemoryExplorer() {
     try {
       const q = searchQuery.trim() || 'incident'
       const response = await incidentService.search(q, 10)
-      
-      const parsed = response.data.results.map((res: any, idx: number) => {
-        const text = res.text || ''
-        const idMatch = text.match(/Incident:\s*([\w-]+)/i)
-        const titleMatch = text.match(/Title:\s*(.+)/i)
-        const rootCauseMatch = text.match(/Root Cause:\s*(.+)/i)
-        const resolutionMatch = text.match(/Resolution:\s*(.+)/i)
-        
-        return {
-          id: idMatch ? idMatch[1] : `MEM-${Math.floor(Math.random()*1000)}`,
-          type: 'Incident',
-          title: titleMatch ? titleMatch[1] : text.slice(0, 40) + '...',
-          root_cause: rootCauseMatch ? rootCauseMatch[1] : 'Unknown',
-          resolution: resolutionMatch ? resolutionMatch[1] : 'Unknown',
-          similarity: `${99 - (idx * 3)}%`,
-          date: new Date().toISOString().split('T')[0],
-          size: `${(text.length / 1024).toFixed(1)}kb`,
-          impact: text.toLowerCase().includes('oom') || text.toLowerCase().includes('outage') ? 'Critical' : 'High'
-        }
-      })
-      
-      setMemories(parsed)
+      setMemories(response.data.results)
     } catch (e) {
       console.error(e)
     } finally {

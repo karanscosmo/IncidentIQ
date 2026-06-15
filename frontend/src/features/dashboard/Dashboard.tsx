@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { 
   Calendar, 
   Download, 
@@ -8,8 +9,24 @@ import {
   AlertTriangle,
   PlayCircle
 } from 'lucide-react'
+import { dashboardService } from '../../services/api'
 
 export default function Dashboard() {
+  const [metrics, setMetrics] = useState({
+    active_incidents: 0,
+    resolved_incidents: 0,
+    memory_stored: 0,
+    similar_matches: 0,
+    deployment_risks: 0,
+    avg_resolution_mins: 0
+  })
+
+  useEffect(() => {
+    dashboardService.getMetrics().then(res => {
+      setMetrics(res.data)
+    }).catch(err => console.error("Failed to fetch metrics", err))
+  }, [])
+
   return (
     <>
       {/* Header Row */}
@@ -34,7 +51,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
         <div className="glass-panel p-4 rounded-xl flex flex-col border-l-4 border-l-error active-glow">
           <span className="text-on-surface-variant font-label-md text-[11px] uppercase mb-1">Active Incidents</span>
-          <span className="text-h1 font-h1 text-error">3</span>
+          <span className="text-h1 font-h1 text-error">{metrics.active_incidents}</span>
           <div className="mt-2 flex items-center gap-1 text-error text-[11px]">
             <TrendingUp className="w-[14px] h-[14px]" />
             +1 vs yesterday
@@ -42,7 +59,7 @@ export default function Dashboard() {
         </div>
         <div className="glass-panel p-4 rounded-xl flex flex-col">
           <span className="text-on-surface-variant font-label-md text-[11px] uppercase mb-1">Incidents Resolved</span>
-          <span className="text-h1 font-h1 text-on-surface">142</span>
+          <span className="text-h1 font-h1 text-on-surface">{metrics.resolved_incidents}</span>
           <div className="mt-2 flex items-center gap-1 text-emerald-400 text-[11px]">
             <TrendingUp className="w-[14px] h-[14px]" />
             12% increase
@@ -50,7 +67,7 @@ export default function Dashboard() {
         </div>
         <div className="glass-panel p-4 rounded-xl flex flex-col">
           <span className="text-on-surface-variant font-label-md text-[11px] uppercase mb-1">Memory Stored</span>
-          <span className="text-h1 font-h1 text-on-surface">1.2k</span>
+          <span className="text-h1 font-h1 text-on-surface">{metrics.memory_stored}</span>
           <div className="mt-2 flex items-center gap-1 text-on-surface-variant text-[11px]">
             <Database className="w-[14px] h-[14px]" />
             Vector embeddings
@@ -58,7 +75,7 @@ export default function Dashboard() {
         </div>
         <div className="glass-panel p-4 rounded-xl flex flex-col">
           <span className="text-on-surface-variant font-label-md text-[11px] uppercase mb-1">Similar Matches</span>
-          <span className="text-h1 font-h1 text-primary">89</span>
+          <span className="text-h1 font-h1 text-primary">{metrics.similar_matches}</span>
           <div className="mt-2 flex items-center gap-1 text-primary text-[11px]">
             <LineChart className="w-[14px] h-[14px]" />
             AI correlation
@@ -66,7 +83,7 @@ export default function Dashboard() {
         </div>
         <div className="glass-panel p-4 rounded-xl flex flex-col border-l-4 border-l-tertiary">
           <span className="text-on-surface-variant font-label-md text-[11px] uppercase mb-1">Deployment Risks</span>
-          <span className="text-h1 font-h1 text-tertiary">2</span>
+          <span className="text-h1 font-h1 text-tertiary">{metrics.deployment_risks}</span>
           <div className="mt-2 flex items-center gap-1 text-tertiary text-[11px]">
             <AlertTriangle className="w-[14px] h-[14px]" />
             High impact
@@ -74,7 +91,7 @@ export default function Dashboard() {
         </div>
         <div className="glass-panel p-4 rounded-xl flex flex-col">
           <span className="text-on-surface-variant font-label-md text-[11px] uppercase mb-1">Avg Resolution</span>
-          <span className="text-h1 font-h1 text-on-surface">14m</span>
+          <span className="text-h1 font-h1 text-on-surface">{metrics.avg_resolution_mins}m</span>
           <div className="mt-2 flex items-center gap-1 text-emerald-400 text-[11px]">
             <TrendingDown className="w-[14px] h-[14px]" />
             -4m reduction

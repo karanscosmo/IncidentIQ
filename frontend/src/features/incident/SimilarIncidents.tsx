@@ -21,20 +21,14 @@ export default function SimilarIncidents() {
       try {
         const response = await incidentService.search('incident', 5)
         const parsed = response.data.results.map((res: any, idx: number) => {
-          const text = res.text || ''
-          const idMatch = text.match(/Incident:\s*([\w-]+)/i)
-          const titleMatch = text.match(/Title:\s*(.+)/i)
-          const resMatch = text.match(/Resolution:\s*(.+)/i)
-          const tagsMatch = text.match(/Tags:\s*(.+)/i)
-          
           return {
-            id: idMatch ? idMatch[1] : `INC-${1000 + idx}`,
-            title: titleMatch ? titleMatch[1] : 'Unknown Incident',
-            similarity: `${98 - (idx * 5)}%`,
-            date: new Date().toISOString().split('T')[0],
+            id: res.id,
+            title: res.title,
+            similarity: res.similarity,
+            date: res.date,
             status: 'Resolved',
-            tags: tagsMatch ? tagsMatch[1].split(',').map((t: string) => t.trim()) : ['System'],
-            resolution: resMatch ? resMatch[1] : 'No resolution recorded.'
+            tags: ['System', 'Database', 'Memory'], // Mocked tags since backend doesn't provide them yet
+            resolution: res.resolution
           }
         })
         setIncidents(parsed)

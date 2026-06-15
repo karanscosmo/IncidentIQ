@@ -54,6 +54,13 @@
   .translate-z-10 {
     transform: translateZ(30px);
   }
+  .rotate-y-12 {
+    transform: rotateY(12deg);
+  }
+  @keyframes slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 }
 
 /* Custom scrollbar */

@@ -12,7 +12,7 @@ logging.basicConfig(
 
 os.environ['SSL_CERT_FILE'] = certifi.where()
 from app.core.config import settings
-from app.api.routers import incidents, workflow, predictor
+from app.api.routers import incidents, workflow, predictor, dashboard
 
 app = FastAPI(
     title=settings.api_title,
@@ -42,20 +42,6 @@ app.include_router(workflow.router, prefix="/workflow", tags=["Agent Workflow"])
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-@app.middleware("http")
-async def extract_api_keys(request: Request, call_next):
-    # Extract API keys from headers and temporarily set them in environment
-    openai_key = request.headers.get("x-openai-key")
-    if openai_key:
-        os.environ["OPENAI_API_KEY"] = openai_key
-    
-    hindsight_key = request.headers.get("x-hindsight-key")
-    if hindsight_key:
-        os.environ["HINDSIGHT_API_KEY"] = hindsight_key
-
-    response = await call_next(request)
-    return response
-
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     import logging
@@ -67,6 +53,9 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 # Include the predictor router
 app.include_router(predictor.router, prefix="/predictor", tags=["Deployment Risk Predictor"])
+
+# Include the dashboard router
+app.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard"])
 
 @app.get("/", summary="Health check", tags=["System"])
 def health_check():

@@ -36,19 +36,7 @@ export default function Copilot() {
       const state = response.data.state
       
       const memories = state.memories_retrieved || []
-      const memoryObjects = memories.map((m: any, idx: number) => {
-        const text = typeof m === 'string' ? m : (m.text || '')
-        const idMatch = text.match(/Incident:\s*([\w-]+)/i)
-        const rcMatch = text.match(/Root Cause:\s*(.+)/i)
-        const resMatch = text.match(/Resolution:\s*(.+)/i)
-        return {
-          id: idMatch ? idMatch[1] : `INC-${Math.floor(Math.random()*1000)}`,
-          rootCause: rcMatch ? rcMatch[1] : 'Unknown',
-          resolution: resMatch ? resMatch[1] : 'Unknown',
-          confidence: 99 - (idx * 3)
-        }
-      })
-      const uniqueMems = Array.from(new Map(memoryObjects.map((m: any) => [m.id, m])).values())
+      const uniqueMems = Array.from(new Map(memories.map((m: any) => [m.id, m])).values())
 
       const botMessage = {
         role: 'assistant',
@@ -147,17 +135,53 @@ export default function Copilot() {
 
       {/* Input Area */}
       <div className="p-4 bg-surface-container-low border-t border-outline-variant">
+        
+        {/* Agent Execution Trace */}
+        {messages[messages.length - 1]?.content === 'Analyzing incident...' && (
+          <div className="mb-4 bg-surface-container border border-primary/20 rounded-lg p-4 animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center gap-2 mb-3">
+              <Activity className="w-4 h-4 text-primary animate-pulse" />
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary">LangGraph Execution Trace</span>
+            </div>
+            <div className="flex justify-between items-center text-xs">
+              <div className="flex flex-col items-center gap-1 text-primary">
+                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center border border-primary/50">1</div>
+                <span>Analyzer</span>
+              </div>
+              <div className="h-px bg-outline-variant flex-1 mx-2 relative overflow-hidden">
+                 <div className="absolute inset-0 bg-primary/50 translate-x-[-100%] animate-[slide_1.5s_ease-in-out_infinite]" />
+              </div>
+              <div className="flex flex-col items-center gap-1 text-on-surface-variant">
+                <div className="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center border border-outline">2</div>
+                <span>Retrieve</span>
+              </div>
+              <div className="h-px bg-outline-variant flex-1 mx-2"></div>
+              <div className="flex flex-col items-center gap-1 text-on-surface-variant">
+                <div className="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center border border-outline">3</div>
+                <span>Root Cause</span>
+              </div>
+              <div className="h-px bg-outline-variant flex-1 mx-2"></div>
+              <div className="flex flex-col items-center gap-1 text-on-surface-variant">
+                <div className="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center border border-outline">4</div>
+                <span>Resolution</span>
+              </div>
+            </div>
+          </div>
+        )}
+
         <form onSubmit={handleSend} className="relative flex items-center">
           <input 
             type="text" 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            disabled={messages[messages.length - 1]?.content === 'Analyzing incident...'}
             placeholder="Ask about an incident, error log, or system behavior..."
-            className="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-4 pr-12 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+            className="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-4 pr-12 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all disabled:opacity-50"
           />
           <button 
             type="submit"
-            className="absolute right-2 w-8 h-8 rounded flex items-center justify-center text-primary hover:bg-primary/10 transition-colors"
+            disabled={messages[messages.length - 1]?.content === 'Analyzing incident...'}
+            className="absolute right-2 w-8 h-8 rounded flex items-center justify-center text-primary hover:bg-primary/10 transition-colors disabled:opacity-50"
           >
             <Send className="w-4 h-4" />
           </button>

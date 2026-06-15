@@ -12,8 +12,15 @@ class IncidentAnalyzeRequest(BaseModel):
     query: str
     
 class MemoryResult(BaseModel):
+    id: str
+    title: str
+    root_cause: str
+    resolution: str
+    similarity: str
+    date: str
+    size: str
+    impact: str
     text: str
-    metadata: Optional[dict] = None
 
 class SearchResponse(BaseModel):
     status: str

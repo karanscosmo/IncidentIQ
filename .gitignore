@@ -58,3 +58,5 @@ __MACOSX/
 stitch_incidentiq_memory_copilot/
 *.zip
 *.tar.gz
+
+.env.vercel

@@ -23,6 +23,8 @@ def analyze_node(state: IncidentState) -> IncidentState:
     analysis = response.choices[0].message.content
     return {"analysis": analysis}
 
+import re
+
 def retrieve_memories_node(state: IncidentState) -> IncidentState:
     print("Agent: Retrieving memories from Hindsight...")
     analysis = state.get("analysis", "")
@@ -31,7 +33,22 @@ def retrieve_memories_node(state: IncidentState) -> IncidentState:
     results = search_incidents(analysis)
     memories = [m.text for m in results]
     
-    return {"memories": memories}
+    memories_retrieved = []
+    for idx, text in enumerate(memories):
+        # Extract fields using regex for structured frontend response
+        id_match = re.search(r'Incident(?: Summary)?:\s*([\w\s-]+?)\n', text, re.IGNORECASE)
+        rc_match = re.search(r'Root Cause:\s*(.+?)(?=\n|$)', text, re.IGNORECASE)
+        res_match = re.search(r'Resolution:\s*(.+?)(?=\n|$)', text, re.IGNORECASE)
+        
+        memories_retrieved.append({
+            "id": id_match.group(1).strip() if id_match else f"INC-MEMORY-{idx}",
+            "rootCause": rc_match.group(1).strip() if rc_match else "Unknown",
+            "resolution": res_match.group(1).strip() if res_match else "Unknown",
+            "confidence": 99 - (idx * 3), # Mock confidence since SDK might not return distance
+            "text": text
+        })
+    
+    return {"memories": memories, "memories_retrieved": memories_retrieved}
 
 def generate_root_cause_node(state: IncidentState) -> IncidentState:
     print("Agent: Generating root cause...")
