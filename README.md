@@ -18,259 +18,203 @@ IncidentIQ is an AI-powered SRE Copilot designed to help engineering teams learn
 
 ---
 
-## 1. The Problem
+## 🎥 Demo
 
-Modern engineering teams lose critical operational knowledge across a fragmented landscape of tools:
-- Buried in **Slack** threads
-- Stale in **Notion** runbooks
-- Disconnected in **Jira** tickets
-- Forgotten in Google Docs **Postmortems**
-- Scattered across **Dashboards**
+**Watch the IncidentIQ end-to-end workflow:** [Demo Video](https://youtu.be/UVau0CEMoeo)
 
-During an active, high-severity outage, engineers are forced to repeatedly ask: **"Have we seen this before?"**
-
-This fragmentation is expensive. Repeating the diagnostic steps of a previous outage directly multiplies downtime and burns out engineers.
+This demo showcases the end-to-end IncidentIQ workflow, from incident detection and root cause analysis powered by semantic memory retrieval, to automated resolution recommendation and postmortem generation.
 
 ---
 
-## 2. The Solution
+## 🏆 Hackathon Submission
 
-IncidentIQ operates on a simple principle: **The system should never forget a failure.**
+**Event:** Bharat Academix CodeQuest Prototype Development
 
-Instead of acting as a stateless chatbot, IncidentIQ natively integrates with vector memory to create a continuous learning loop. 
-
-- **Incident Analysis:** Ingests raw logs, traces, and metrics.
-- **Memory Retrieval:** Semantically queries the vector memory bank for historical outages resembling the current anomaly.
-- **Root-Cause Intelligence:** Synthesizes retrieved memories to pinpoint the probable failure mechanism.
-- **Resolution Formulation:** Recommends proven remediation steps that worked in the past.
-- **Postmortem Generation:** Drafts structured, blameless postmortems.
-- **Continuous Learning:** Injects the newly generated postmortem back into the vector memory bank to permanently expand its intelligence.
+This repository contains our complete submission package, which includes:
+- **Source Code** (Frontend, Backend, Agents)
+- **Technical Documentation** (Architecture & API in `docs/`)
+- **Architecture Overview** (System Design & Workflows)
+- **Demo Video** (End-to-End Walkthrough)
+- **Presentation Deck** (Available in our submission portal)
 
 ---
 
-## 3. Why Hindsight
+## 1. Project Overview
 
-IncidentIQ uses **Hindsight** as its core long-term memory layer. 
+**IncidentIQ is a Memory-Powered AI SRE Copilot.** 
 
-Every resolved incident is retained inside a Hindsight memory bank, allowing future incidents to retrieve similar historical failures through semantic search. 
+Modern engineering teams lose critical operational knowledge across fragmented tools like Slack, Jira, and Notion. During an active outage, engineers are forced to repeatedly ask: *"Have we seen this before?"*
 
-This infrastructure enables:
-* **Faster root cause analysis** by correlating live anomalies to past bugs.
-* **Reuse of proven resolutions** instead of debugging from scratch.
-* **Organizational knowledge retention** even as team members change.
-* **Continuous learning from past outages** to proactively identify deployment risks.
+At the core of IncidentIQ is its **Hindsight Memory** intelligence layer. Unlike traditional tools or stateless chatbots, our system learns continuously from historical incidents. **Every incident becomes organizational knowledge.** When an anomaly occurs, IncidentIQ semantically queries its memory bank to identify similar past outages, leveraging the lessons learned to accelerate triage and resolution.
 
 ---
 
-## 4. Key Features
+## 2. Why IncidentIQ Matters
 
-- 🤖 **AI Incident Copilot:** An interactive, context-aware agent for live incident triage.
-- 🧠 **Hindsight Memory Integration:** Persistent, semantic vector storage for operational history retention.
-- 🔍 **Similar Incident Retrieval:** Instantly correlates active alerts with historically resolved outages.
-- 🚀 **Deployment Risk Assessment:** Analyzes proposed PR diffs against historical incidents to predict deployment failure risk.
-- 📝 **Automated Postmortem Generation:** Automated drafting of blameless incident reports stored back to memory.
-- 📊 **Organizational Learning Dashboard:** High-level analytics tracking system reliability and memory growth.
-- 🔄 **Multi-Agent Architecture:** A LangGraph-orchestrated swarm of specialized sub-agents.
+IncidentIQ fundamentally changes how engineering teams respond to outages:
+- **Faster incident resolution** by instantly surfacing past fixes.
+- **Reduced MTTR (Mean Time To Recovery)** through context-aware troubleshooting.
+- **Knowledge retention** across team members and time.
+- **Organizational learning** via an automated, closed-loop process.
+- **Reduced dependency on tribal knowledge** by decentralizing operational insights.
+
+---
+
+## 3. End-to-End Workflow
+
+IncidentIQ orchestrates a seamless flow from failure to organizational learning:
+
+```mermaid
+graph TD
+    A[Incident Detected] --> B[Incident Analysis]
+    B --> C[Memory Retrieval <br/> <i>Hindsight</i>]
+    C --> D[Root Cause Investigation]
+    D --> E[Resolution Recommendation]
+    E --> F[Postmortem Generation]
+    F --> G[Learning Agent Storage]
+    G --> H[Organizational Memory Growth]
+```
+
+---
+
+## 4. Demo Scenario
+
+**Incident:**
+*"Payment API latency increased to 1200ms"*
+
+**IncidentIQ Response:**
+1. **Analyzes incident:** Parses the latency spike alert and trace data.
+2. **Retrieves similar incidents:** Queries Hindsight and finds a matching incident from two months ago caused by an unindexed database query.
+3. **Identifies likely root cause:** Highlights the specific slow query in the Payment API.
+4. **Suggests resolution steps:** Recommends applying the previously successful index migration.
+5. **Generates postmortem:** Once resolved, drafts a postmortem detailing the latency spike and fix.
+6. **Stores new learning:** The Learning Agent commits this new incident context back into memory, reinforcing organizational knowledge.
 
 ---
 
 ## 5. Architecture
 
-IncidentIQ leverages a decoupled, state-driven architecture centered around retrieval-augmented workflows.
+IncidentIQ uses a decoupled, state-driven architecture centered around LangGraph-orchestrated workflows. Intelligence is distributed across specialized AI agents:
 
-```mermaid
-graph TD
-    A[Frontend React Client] -->|REST API| B(FastAPI Gateway)
-    B --> C{LangGraph Orchestrator}
-    C -->|Analyze State| D[OpenAI]
-    C -->|Store/Retrieve| E[(Hindsight Memory)]
-    E -->|Semantic Context| C
-    C -->|Generated Insights| B
-    B --> A
-```
+- **Incident Analyzer Agent:** Parses incoming anomalies, logs, and metrics to understand the current state.
+- **Memory Retrieval Agent:** Queries the Hindsight Memory bank for historically similar incidents.
+- **Root Cause Agent:** Synthesizes current data and retrieved memory to pinpoint the probable failure mechanism.
+- **Resolution Agent:** Formulates proven, actionable remediation steps based on past successes.
+- **Postmortem Agent:** Drafts comprehensive, structured, blameless postmortems upon resolution.
+- **Learning Agent:** Extracts core learnings from the postmortem and stores them back into Hindsight to expand organizational knowledge.
 
 ---
 
-## 6. Workflow
+## 6. Hindsight Memory
 
-```mermaid
-sequenceDiagram
-    participant SRE
-    participant IncidentIQ
-    participant Hindsight
-    
-    SRE->>IncidentIQ: Paste anomaly / log trace
-    IncidentIQ->>IncidentIQ: Analyze Entities
-    IncidentIQ->>Hindsight: Query semantic matches (recall)
-    Hindsight-->>IncidentIQ: Return similar historical incidents
-    IncidentIQ->>IncidentIQ: Deduce Root Cause
-    IncidentIQ->>IncidentIQ: Formulate Resolution
-    IncidentIQ-->>SRE: Present Actionable Fix & Historical Proof
-    SRE->>IncidentIQ: Mark as resolved
-    IncidentIQ->>IncidentIQ: Draft Postmortem
-    IncidentIQ->>Hindsight: Store new learning (retain)
-```
+**Hindsight Memory** is the central nervous system of our continuous learning loop. We keep this layer highly visible because it is the key innovation of IncidentIQ.
+
+- **Memory Storage:** Postmortems and incident resolutions are embedded and stored in a specialized vector bank.
+- **Memory Retrieval:** When an anomaly is detected, the system performs a semantic search (`client.recall`) to instantly recall relevant past incidents.
+- **Similar Incident Search:** Instantly correlates active alerts with historically resolved outages.
+- **Continuous Learning Loop:** Every resolved incident triggers a `retain` operation, perpetually expanding the system's intelligence without manual runbook updates.
 
 ---
 
-## 7. Tech Stack
+## 7. Key Features
+
+- **Incident Copilot:** An interactive, context-aware AI agent for live incident triage.
+- **Organizational Memory:** Persistent vector storage of operational history.
+- **Similar Incident Search:** Instantly correlates active alerts with historically resolved outages.
+- **Deployment Risk Prediction:** Analyzes proposed changes against historical failures to assess deployment failure risk.
+- **Postmortem Generation:** Automatically drafts blameless postmortems post-incident.
+- **Learning Loop:** Continuously ingests new resolutions to improve future accuracy.
+- **Analytics Dashboard:** High-level tracking of system reliability and memory growth.
+
+---
+
+## 8. Tech Stack
 
 **Frontend:**
 - React 18
 - TypeScript
 - Tailwind CSS
-- Recharts
 
 **Backend:**
 - FastAPI (Python 3.13)
-- LangGraph (Agentic Orchestration)
 
-**Memory & AI:**
-- Vectorize Hindsight Cloud
+**AI & Agents:**
+- LangGraph (Agentic Orchestration)
 - OpenAI (`gpt-4o-mini`)
 
-**Infrastructure:**
+**Memory Layer:**
+- Vectorize Hindsight Cloud
+
+**Database:**
+- Vectorize Hindsight (Vector Storage)
+
+**Deployment:**
 - Vercel (Frontend & Serverless Backend)
 
 ---
 
-## 8. Repository Structure
+## 9. Project Structure
 
 ```text
 incidentiq/
 ├── backend/                  # FastAPI & LangGraph Backend
-│   ├── requirements.txt      
-│   ├── .env.example          
 │   └── app/
-│       ├── api/routers/      # REST Endpoints
 │       ├── agents/           # Specialized LangGraph Agents
-│       ├── services/         # Hindsight & LLM Integration
-│       ├── workflows/        # State and Graph execution
-│       └── schemas/          # Pydantic data validation
+│       ├── services/         # Memory & LLM Integration
+│       └── workflows/        # State and Graph execution
 ├── frontend/                 # React + Vite Application
 │   └── src/
 │       ├── components/       # UI Primitives & Layouts
-│       ├── features/         # Domain-Driven Modules (memory, incident, etc)
-│       └── services/         # API Clients
-└── docs/                     # Technical specifications & architecture
+│       └── features/         # Domain-Driven Modules
+├── docs/                     # Technical specifications & architecture
+├── infra/                    # Infrastructure definitions
+├── scripts/                  # Utility scripts
+└── tests/                    # Testing suite
 ```
 
 ---
 
-## 9. Installation
+## 10. Screenshots
 
-### Backend Setup
+*(UI screenshots and interface demonstrations are available in our submission video and presentation deck.)*
+
+---
+
+## 11. Future Roadmap
+
+- **Slack Integration:** Bi-directional sync for triggering IncidentIQ directly from channels.
+- **Jira Integration:** Auto-create and populate tickets based on Root Cause findings.
+- **Datadog Integration:** Direct ingestion of metric anomalies.
+- **Advanced Predictive Analytics:** Improved deployment risk prediction heuristics.
+- **Enhanced Memory Intelligence:** Multi-modal memory retrieval including metrics and graphs.
+
+---
+
+## 12. Local Setup
+
+### Backend
 ```bash
 cd backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-```
-
-### Frontend Setup
-```bash
-cd frontend
-npm install
-```
-
----
-
-## 10. Environment Variables
-
-Create a `.env` file in the `backend/` directory based on the provided template:
-
-```env
-# backend/.env.example
-OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-HINDSIGHT_API_KEY=vec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-HINDSIGHT_BASE_URL=https://api.hindsight.vectorize.io
-HINDSIGHT_MEMORY_BANK=incidentiq-prod
-```
-
-> [!WARNING]
-> Never commit your live `.env` file to version control. IncidentIQ strictly uses `.env.example` for templating to prevent secret exposure.
-
----
-
-## 11. Running Locally
-
-**Start the Backend:**
-```bash
-cd backend
-source venv/bin/activate
+cp .env.example .env # Add your OpenAI & Hindsight keys
 uvicorn app.main:app --reload --port 8000
 ```
 
-**Start the Frontend:**
+### Frontend
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
-The application will be accessible at `http://localhost:5173`.
 
 ---
 
-## 12. Demo Scenario: The Value of Memory
+<div align="center">
 
-### Without Memory (Standard LLM)
-*User:* "The API Gateway container is crash looping with exit code 137."
-*Standard LLM:* "Exit code 137 means Out of Memory (OOM). Check your memory limits or look for memory leaks in your code." *(Generic, unhelpful).*
+## The AI SRE Copilot That Remembers Every Outage
 
-### With IncidentIQ (Hindsight Memory)
-*User:* "The API Gateway container is crash looping with exit code 137."
-*IncidentIQ:* "I retrieved **INC-405** from our memory bank. Three weeks ago, we saw identical OOM kills on the API Gateway due to an unpaginated internal query to the User Service. 
-**Root Cause:** The `GET /users/bulk` endpoint is pulling too many records into memory.
-**Recommended Fix:** Revert PR #892 or implement cursor-based pagination immediately.
-**Confidence:** 96%"
+*IncidentIQ's vision is to build an autonomous infrastructure intelligence layer that ensures engineering teams never have to solve the same problem twice.*
 
----
-
-## 13. Hindsight Memory Deep Dive
-
-Memory is the core intelligent layer of IncidentIQ. The application uses Hindsight SDK operations to seamlessly manage historical context:
-
-- **`client.retain`:** Automatically called at the end of every resolved incident. It serializes the postmortem and pushes it into the memory bank for permanent vector storage.
-- **`client.recall`:** Executes synchronously during an active incident triage. It converts the SRE's input into an embedding and performs a semantic search against historical outages to provide context to the LLM.
-- **Continuous Learning Loop:** Because every resolution triggers a `retain` call, IncidentIQ surfaces increasingly relevant historical context as organizational knowledge grows.
-
----
-
-## 14. Security
-
-IncidentIQ is designed with security best practices in mind:
-- **Secret Management:** Strict isolation of API keys. No hardcoded credentials.
-- **Environment Isolation:** `.env` files are aggressively git-ignored.
-- **Input Validation:** All frontend inputs are heavily typed via TypeScript and strictly validated via Pydantic on the FastAPI backend before reaching the LLM or Vector store.
-- **Error Handling:** Global exception handlers prevent stack trace leakage to the client, utilizing structured server-side logging instead.
-
----
-
-## 15. Roadmap
-
-The following integrations and capabilities are planned for future development:
-- [ ] **Slack Integration:** Bi-directional sync for triggering IncidentIQ directly from `#incidents` channels.
-- [ ] **Jira Integration:** Auto-create and populate tickets based on Root Cause findings.
-- [ ] **Datadog & Grafana:** Direct ingestion of metric anomalies.
-- [ ] **Kubernetes Operator:** Autonomous deployment rollbacks based on Deployment Risk Predictor scores.
-
----
-
-## 16. Links
-
-**Live Demo:**
-https://incident-iq-gtdi.vercel.app
-
-**GitHub Repository:**
-https://github.com/karanscosmo/IncidentIQ
-
----
-
-## 17. Contributors
-
-- **IncidentIQ Team**
-
----
-
-## 18. License
-
-This project is licensed under the [MIT License](LICENSE).
+</div>
